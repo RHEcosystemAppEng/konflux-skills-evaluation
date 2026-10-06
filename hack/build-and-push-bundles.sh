@@ -15,7 +15,7 @@
 # TKN_BUNDLE_PUSH_EXTRA_ARGS below).
 #
 # Usage:
-#   REGISTRY_BASE=quay.io/ai5-marketplace/konflux-tasks \
+#   REGISTRY_BASE=quay.io/ecosystem-appeng/konflux-skill-evaluation \
 #     hack/build-and-push-bundles.sh [task-name ...]
 #
 #   # No task names => build+push every task/*/*.yaml in the repo.
@@ -28,7 +28,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-REGISTRY_BASE="${REGISTRY_BASE:-quay.io/ai5-marketplace/konflux-tasks}"
+REGISTRY_BASE="${REGISTRY_BASE:-quay.io/ecosystem-appeng/konflux-skill-evaluation}"
 REPO_ROOT=$(git rev-parse --show-toplevel)
 cd "$REPO_ROOT"
 

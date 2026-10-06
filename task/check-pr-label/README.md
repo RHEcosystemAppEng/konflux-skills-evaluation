@@ -48,7 +48,7 @@ No ConfigMaps are used by this Task.
     - name: name
       value: check-pr-label
     - name: bundle
-      value: "quay.io/ai5-marketplace/konflux-tasks/check-pr-label:0.1.0@sha256:<digest>"
+      value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/check-pr-label:0.1.0@sha256:27196ca1f4bc04b570ff230e9ccbb174faf8beabd2240db7222c2f5cc2649eb6"
     - name: kind
       value: task
   params:

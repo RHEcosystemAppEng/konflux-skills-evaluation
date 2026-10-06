@@ -62,7 +62,7 @@ No ConfigMaps are used by this Task.
     - name: name
       value: update-registered-shas
     - name: bundle
-      value: "quay.io/ai5-marketplace/konflux-tasks/update-registered-shas:0.1.0@sha256:<digest>"
+      value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/update-registered-shas:0.1.0@sha256:de91b167f45481b8de74641e5abeeb82f2c7cb16f602ee6bcddfa8ff496ad316"
     - name: kind
       value: task
   params:

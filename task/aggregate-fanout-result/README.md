@@ -57,7 +57,7 @@ As a hard gate (fails the pipeline on a non-SUCCESS aggregate):
     - name: name
       value: aggregate-fanout-result
     - name: bundle
-      value: "quay.io/ai5-marketplace/konflux-tasks/aggregate-fanout-result:0.1.0@sha256:<digest>"
+      value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/aggregate-fanout-result:0.1.0@sha256:bc68d175c2a61dc5c90f5cd578bae824932376adace7349c782fab1dad883649"
     - name: kind
       value: task
   params:

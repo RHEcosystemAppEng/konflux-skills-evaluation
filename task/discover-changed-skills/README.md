@@ -62,7 +62,7 @@ No ConfigMaps are used by this Task.
     - name: name
       value: discover-changed-skills
     - name: bundle
-      value: "quay.io/ai5-marketplace/konflux-tasks/discover-changed-skills:0.1.0@sha256:<digest>"
+      value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/discover-changed-skills:0.1.0@sha256:808fe417936820aedfab210a3bc3e0a0e01aaf45696b6a4d99aa7457fe92dcf0"
     - name: kind
       value: task
   params:

@@ -106,7 +106,7 @@ No ConfigMaps are used by this Task.
     - name: name
       value: aeh-skill-eval
     - name: bundle
-      value: "quay.io/ai5-marketplace/konflux-tasks/aeh-skill-eval:0.1.0@sha256:<digest>"
+      value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/aeh-skill-eval:0.1.0@sha256:0415374785a418acca32bb45471a80709086f585d040186f2b0be87b5ff5d89c"
     - name: kind
       value: task
   params:

@@ -41,7 +41,7 @@ checks run pre-merge.
     resolver: bundles
     params:
     - {name: name, value: discover-changed-skills}
-    - {name: bundle, value: "quay.io/ai5-marketplace/konflux-tasks/discover-changed-skills:0.1.0@sha256:<digest>"}
+    - {name: bundle, value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/discover-changed-skills:0.1.0@sha256:808fe417936820aedfab210a3bc3e0a0e01aaf45696b6a4d99aa7457fe92dcf0"}
     - {name: kind, value: task}
   params:
   - {name: current-sha, value: "$(params.revision)"}
@@ -66,7 +66,7 @@ explicit values to point at your own repository instead.
     resolver: bundles
     params:
     - {name: name, value: aeh-skill-eval}
-    - {name: bundle, value: "quay.io/ai5-marketplace/konflux-tasks/aeh-skill-eval:0.1.0@sha256:<digest>"}
+    - {name: bundle, value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/aeh-skill-eval:0.1.0@sha256:0415374785a418acca32bb45471a80709086f585d040186f2b0be87b5ff5d89c"}
     - {name: kind, value: task}
   params:
   - {name: submission-revision, value: "$(params.revision)"}
@@ -92,7 +92,7 @@ chain) only runs when `should-evaluate` AND that leg's own membership in
     resolver: bundles
     params:
     - {name: name, value: aggregate-fanout-result}
-    - {name: bundle, value: "quay.io/ai5-marketplace/konflux-tasks/aggregate-fanout-result:0.1.0@sha256:<digest>"}
+    - {name: bundle, value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/aggregate-fanout-result:0.1.0@sha256:bc68d175c2a61dc5c90f5cd578bae824932376adace7349c782fab1dad883649"}
     - {name: kind, value: task}
   params:
   - {name: SOURCE_ARTIFACT, value: "$(tasks.clone-repository.results.SOURCE_ARTIFACT)"}
@@ -110,7 +110,7 @@ chain) only runs when `should-evaluate` AND that leg's own membership in
     resolver: bundles
     params:
     - {name: name, value: update-registered-shas}
-    - {name: bundle, value: "quay.io/ai5-marketplace/konflux-tasks/update-registered-shas:0.1.0@sha256:<digest>"}
+    - {name: bundle, value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/update-registered-shas:0.1.0@sha256:de91b167f45481b8de74641e5abeeb82f2c7cb16f602ee6bcddfa8ff496ad316"}
     - {name: kind, value: task}
   params:
   - {name: current-sha, value: "$(params.revision)"}
@@ -126,7 +126,7 @@ chain) only runs when `should-evaluate` AND that leg's own membership in
     resolver: bundles
     params:
     - {name: name, value: aggregate-fanout-result}
-    - {name: bundle, value: "quay.io/ai5-marketplace/konflux-tasks/aggregate-fanout-result:0.1.0@sha256:<digest>"}
+    - {name: bundle, value: "quay.io/ecosystem-appeng/konflux-skill-evaluation/aggregate-fanout-result:0.1.0@sha256:bc68d175c2a61dc5c90f5cd578bae824932376adace7349c782fab1dad883649"}
     - {name: kind, value: task}
   params:
   - {name: SOURCE_ARTIFACT, value: "$(tasks.clone-repository.results.SOURCE_ARTIFACT)"}

@@ -51,11 +51,18 @@ No task in this repo uses a ConfigMap.
 
 Each `task/<name>/<name>.yaml` is built and pushed as a Tekton bundle image
 via `hack/build-and-push-bundles.sh` (see that script and the `make bundles`
-target). **This repo does not yet push real images** -- there is no
-registry/credentials wired up yet. Pipelines should reference
-`quay.io/ai5-marketplace/konflux-tasks/<task-name>:<version>@sha256:<digest>`
-as a placeholder until a real build is published; see
-[Open follow-ups](#open-follow-ups) below.
+target), to:
+
+```text
+quay.io/ecosystem-appeng/konflux-skill-evaluation/<task-name>:<version>
+```
+
+All five 0.1.0 bundles are published. Pin the digest `make bundles` prints
+(or re-resolve it with `skopeo inspect docker://quay.io/ecosystem-appeng/konflux-skill-evaluation/<task-name>:0.1.0`)
+in your pipeline's `taskRef.params[bundle]` -- see each task's own
+`README.md` for a ready-to-use, already-pinned snippet, and
+agentic-plugins' own `.tekton/skills-evaluation-*.yaml` for a real
+consumer.
 
 ## Repository layout
 
@@ -102,9 +109,12 @@ PR once this repo has a GitHub remote.
 
 ## Open follow-ups
 
-- **Push real bundle images and pin real digests.** No registry/credentials
-  are configured yet; `hack/build-and-push-bundles.sh` is ready to run once
-  they are.
-- **Create the actual GitHub remote** for this repo and enable the shared-ci
-  GitHub Actions workflows (they're already onboarded locally, see
-  `.github/workflows/`) plus the [Shared CI Updater](SHARED-CI.md#shared-ci-updater).
+- **Enable the shared-ci GitHub Actions workflows** on the
+  [GitHub remote](https://github.com/RHEcosystemAppEng/konflux-skills-evaluation)
+  (they're already onboarded locally under `.github/workflows/` and will run
+  automatically on the next PR) plus the
+  [Shared CI Updater](SHARED-CI.md#shared-ci-updater) (needs its GitHub App
+  secrets configured, see that section).
+- **Re-run `make bundles` and update every pinned digest** whenever a task
+  changes and its `app.kubernetes.io/version` is bumped -- digests are not
+  automatically kept in sync with source changes.
