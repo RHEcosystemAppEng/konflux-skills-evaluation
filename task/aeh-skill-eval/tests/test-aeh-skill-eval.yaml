@@ -1,0 +1,77 @@
+# source-artifact deliberately points at a nonexistent OCI artifact, and
+# should-evaluate is "false" with an empty changed-skills array. Unlike
+# discover-changed-skills/update-registered-shas, aeh-skill-eval's steps all
+# use onError: continue with a cascading skip-guard, so the TaskRun itself
+# must still SUCCEED -- only the *content* of its two TEST_OUTPUT results
+# reflects the failure/skip. This test exercises exactly that contract:
+#   - TEST_OUTPUT_TIER_A must report "FAILURE" (clone-repo can't resolve
+#     the bogus source-artifact, so security-scan/skillmd-scan cascade-skip).
+#   - TEST_OUTPUT_TIER_B must report "SKIPPED" (should-evaluate=false).
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: test-aeh-skill-eval
+spec:
+  workspaces:
+    - name: tests-workspace
+      description: The workspace provided by the test runner script.
+  tasks:
+    - name: run-aeh-skill-eval
+      taskRef:
+        name: aeh-skill-eval
+      params:
+        - name: submission-dir
+          value: "test/fixture-skill"
+        - name: submission-revision
+          value: "deadbeef"
+        - name: source-artifact
+          value: "localhost:5000/nonexistent/artifact:latest"
+        - name: should-evaluate
+          value: "false"
+        - name: changed-skills
+          value: []
+      workspaces:
+        - name: source
+          workspace: tests-workspace
+
+    - name: verify-result
+      runAfter:
+        - run-aeh-skill-eval
+      params:
+        - name: tier-a-json
+          value: $(tasks.run-aeh-skill-eval.results.TEST_OUTPUT_TIER_A)
+        - name: tier-b-json
+          value: $(tasks.run-aeh-skill-eval.results.TEST_OUTPUT_TIER_B)
+      taskSpec:
+        params:
+          - name: tier-a-json
+            type: string
+          - name: tier-b-json
+            type: string
+        steps:
+          - name: check-results
+            image: registry.access.redhat.com/ubi9/python-311:latest
+            env:
+              - name: TIER_A_JSON
+                value: $(params.tier-a-json)
+              - name: TIER_B_JSON
+                value: $(params.tier-b-json)
+            script: |
+              #!/usr/bin/env bash
+              set -euo pipefail
+              echo "TEST_OUTPUT_TIER_A: ${TIER_A_JSON}"
+              echo "TEST_OUTPUT_TIER_B: ${TIER_B_JSON}"
+              python3 -c "
+              import json, os, sys
+
+              tier_a = json.loads(os.environ['TIER_A_JSON'])
+              tier_b = json.loads(os.environ['TIER_B_JSON'])
+
+              if tier_a.get('result') != 'FAILURE':
+                  print(f\"FAIL: expected TEST_OUTPUT_TIER_A result=FAILURE, got {tier_a.get('result')!r}\")
+                  sys.exit(1)
+              if tier_b.get('result') != 'SKIPPED':
+                  print(f\"FAIL: expected TEST_OUTPUT_TIER_B result=SKIPPED, got {tier_b.get('result')!r}\")
+                  sys.exit(1)
+              print('aeh-skill-eval correctly reported Tier A FAILURE / Tier B SKIPPED for an unresolvable source-artifact')
+              "
